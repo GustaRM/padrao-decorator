@@ -1,0 +1,30 @@
+digraph UML {
+  rankdir=TB; nodesep=0.6; ranksep=0.8;
+  node [shape=record, fontname="Helvetica", fontsize=11, style=filled, fillcolor="#FFFFFF"];
+  edge [fontname="Helvetica", fontsize=10];
+
+  Curso [label="{«interface»\nCurso\n(Component)||+ getCargaHoraria() : float\l+ getEstrutura() : String\l}", fillcolor="#E8F8E8"];
+
+  Grad [label="{CursoGraduacao\n(ConcreteComponent)|- cargaHoraria : float\l|+ CursoGraduacao()\l+ CursoGraduacao(cargaHoraria)\l+ getCargaHoraria() : float\l+ getEstrutura() : String\l}", fillcolor="#FFF8DC"];
+
+  Dec [label="{«abstract»\nCursoDecorator\n(Decorator)|- curso : Curso\l|# CursoDecorator(curso)\l+ getCurso() : Curso\l+ getCargaHoraria() : float\l+ getEstrutura() : String\l# getPercentualCargaHoraria() : float (abstract)\l# getNomeEstrutura() : String (abstract)\l}", fillcolor="#E6F2FF"];
+
+  Est [label="{Estagio\n(ConcreteDecorator)||# getPercentualCargaHoraria() : 10\l# getNomeEstrutura() : \"Estágio\"\l}", fillcolor="#E6F2FF"];
+  Acc [label="{AtividadesComplementares\n(ConcreteDecorator)||# getPercentualCargaHoraria() : 20\l# getNomeEstrutura() : \"ACC\"\l}", fillcolor="#E6F2FF"];
+  Tcc [label="{TrabalhoConclusaoCurso\n(ConcreteDecorator)||# getPercentualCargaHoraria() : 5\l# getNomeEstrutura() : \"TCC\"\l}", fillcolor="#E6F2FF"];
+
+  edge [arrowhead=empty, style=dashed];
+  Grad -> Curso;
+  Dec -> Curso;
+
+  edge [arrowhead=empty, style=solid];
+  Est -> Dec;
+  Acc -> Dec;
+  Tcc -> Dec;
+
+  // agregação: Decorator "tem um" Curso
+  Dec -> Curso [tailport=e, headport=e, dir=both, arrowtail=odiamond, arrowhead=vee, style=solid, headlabel="1", labeldistance=2, label="  curso (decorado)"];
+
+  Nota [shape=note, fillcolor="#FFFFE0", fontsize=10, label="getCargaHoraria() e getEstrutura() delegam ao Curso\ldecorado e acrescentam o seu percentual / nome.\lExemplo: Estagio(ACC(TCC(Graduacao)))\l  -> \"Graduação/TCC/ACC/Estágio\"\l"];
+  Nota -> Dec [style=dashed, arrowhead=none];
+}

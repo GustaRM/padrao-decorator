@@ -1,16 +1,19 @@
 package padroesestruturais.decorator;
 
+/** Papel "ConcreteDecorator". */
 public class Estagio extends CursoDecorator {
 
     public Estagio(Curso curso) {
         super(curso);
     }
 
-    public float getPercentualCargaHoraria() {
+    @Override
+    protected float getPercentualCargaHoraria() {
         return 10.0f;
     }
 
-    public String getNomeEstrutura() {
+    @Override
+    protected String getNomeEstrutura() {
         return "Estágio";
     }
 }
